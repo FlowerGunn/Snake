@@ -1,0 +1,34 @@
+
+h2 {
+	font-family:cursive;
+	text-align: center;
+   }
+.field {
+  	width: 520px;
+  	height: 520px;
+  	margin: 0 auto;
+  	display: flex;
+  	flex-wrap: wrap;
+    border: 3px solid #640a64;
+  	background-color: #e6e6e6 
+  }
+  .excel{
+  	width: 40px;
+  	height: 40px;    
+  }
+
+ .snakeBody{
+   background: #1e9c76;
+   background: cover;
+   border-radius: 25%;
+ }
+
+ .head{
+  background: #084631;
+  background: cover;
+  } 
+
+.food{
+  background : no-repeat center url("../img/Cherry.png") ;
+  background: cover;
+}
