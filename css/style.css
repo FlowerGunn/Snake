@@ -10,11 +10,11 @@ h2 {
   	display: flex;
   	flex-wrap: wrap;
     border: 3px solid #640a64;
-  	background-color: #e6e6e6 
+  	background-color: #e6e6e6
   }
   .excel{
   	width: 40px;
-  	height: 40px;    
+  	height: 40px;
   }
 
  .snakeBody{
@@ -26,9 +26,95 @@ h2 {
  .head{
   background: #084631;
   background: cover;
-  } 
+  }
 
 .food{
   background : no-repeat center url("../img/Cherry.png") ;
   background: cover;
+}
+
+.start_button{
+	margin: auto;
+	border: 3px solid #73AD21;
+	width: 100%;
+	height: 60px;
+}
+
+.start_div{
+	margin: auto;
+	width: 40%;
+	height: 30%;
+}
+
+.draggable_block{
+	background-color: black;
+	width: 100px;
+	height: 100px;
+}
+
+.script_box{
+	background-color: black;
+	display: inline-flex;
+	width: 30px;
+	height: 30px;
+	margin-top: -4px;
+}
+
+.script_itself{
+	background-color: green;
+	position: absolute;
+	width: 150px;
+	height: 30px;
+}
+
+.script_text{
+	background-color: red;
+	position: absolute;
+}
+
+.custom_button{
+	font-size: 40px;
+	font-weight: bold;
+	align-items: center;
+	display: inline-flex;
+	margin: 10px;
+	background-color: grey;
+	width: 60px;
+	height: 60px;
+}
+
+.blue{
+	background-color: lightblue;
+}
+
+.green{
+	background-color: green;
+}
+
+.yellow{
+	background-color: yellow;
+}
+
+.connections{
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	pointer-events: none;
+}
+
+#canvas {
+	pointer-events: none;
+}
+
+.add_script_menu{
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background-color: white;
+}
+
+.hidden{
+	display: none;
 }
