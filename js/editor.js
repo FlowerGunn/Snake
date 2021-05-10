@@ -1,20 +1,96 @@
 
-
+let i,i0;
   // window.addEventListener('DOMContentLoaded', () => {
   //   // Get the element by id
   //   const element = document.getElementById("p1");
   //   // Add the ondragstart event listener
   //   element.addEventListener("dragstart", dragstart_handler);
   // });
+let script_library_default = [
+  {
+  script_label: "When game starts",
+  script_name: "when_game_starts",
+  colour: "blue",
+  script_function: `
+    return 1;`
+  },
+  {
+  script_label: "if_score_is_7",
+  script_name: "if_score_is_7",
+  colour: "blue",
+  script_function: `
+    console.log("checked if score == 7");
+    if (score == 7)
+    return 1;
+    return 0;`
+  },
+  {
+  script_label: "when_snake_moves",
+  script_name: "when_snake_moves",
+  colour: "blue",
+  script_function: `
+    return 0;`
+  },
+  {
+  script_label: "speed_double",
+  script_name: "speed_double",
+  colour: "blue",
+  script_function: `
+    setSpeed( snake_speed /  2 );
+    return 1;`
+  }
+
+];
+let script_library_default_l = script_library_default.length;
+let script_library = [];
+
+
+
+
+  let script_decode_library = `[
+    {
+    script_name: "when_game_starts",
+    script_function: function(){
+      //alert("game started");
+      return 1; //разобраться с хранением!!!!!!!!!!!!!!!
+    }
+    },
+    {
+    script_name: "if_score_is_7",
+    script_function: function(){
+      console.log("checked if score == 7");
+      if (score == 7)
+      return 1;
+      return 0;
+    }
+    },
+    {
+    script_name: "when_snake_moves",
+    script_function: function(){
+      return 0;
+    }
+    },
+    {
+    script_name: "speed_double",
+    script_function: function(){
+      setSpeed( snake_speed /  2 );
+      return 1;
+    }
+    }
+  ];`;
+
+
+
+
 document.getElementById('editor').innerhtml='';
 document.getElementById('new_scripts').innerhtml='';
 let new_scripts = document.getElementById('new_scripts');
 let editor = document.getElementById('editor');
 let x = 30;
 let y = 20;
-for (let i = 0; i < y; i++)
+for (i = 0; i < y; i++)
 {
-  for (let i0 = 0; i0 < x; i0++)
+  for (i0 = 0; i0 < x; i0++)
   {
     celltext="<div id='target' class='script_box' ondrop='drop_handler(event)' ondragover='dragover_handler(event)'></div>";
     editor.innerHTML+=celltext;
@@ -37,17 +113,49 @@ function toggleAddScriptMenu(){
   }
 }
 
-let placed_scripts = [];
+let edit_script_window_opened = 0;
 
+function toggleEditScriptWindow(){
+  let edit_script_window = document.getElementById("edit_script_window");
+  if (edit_script_window_opened == 0)
+  {
+    edit_script_window.classList.remove("hidden");
+    edit_script_window_opened = 1;
+  }
+  else
+  {
+    edit_script_window.classList.add("hidden");
+    edit_script_window_opened = 0;
+  }
+}
+
+let placed_scripts = [];
+let placed_scripts_l;
+let script_function;
 let base_scripts_count = 1;
+let colour;
+let script_label;
+
   function addScript(script_name) {
-    let colour = "yellow";
     placed_scripts.push({ id: base_scripts_count, name: script_name, active: 0, completed: 0 });
-    let script_label = script_name;
-    celltext= "<div id='div" + base_scripts_count + "' class='script_itself " + colour + "' draggable='true' onclick='scriptClicked(" + base_scripts_count + ")' ondragstart='dragstart_handler(event)'>" + script_label + "</div>";
+    colour = "yellow"
+    script_label = script_name;
+    for (i = 0; i < script_library_default_l; i++ )
+    {
+      if (script_library_default[i].script_name == script_name)
+      {
+        script_label = script_library_default[i].script_label;
+        script_function = script_library_default[i].script_function;
+        colour = script_library_default[i].colour;
+        break;
+      }
+    }
+    celltext= "<div id='div" + base_scripts_count + "' class='script_itself " + colour + "' draggable='true' onclick='scriptClicked(" + base_scripts_count + ")' ondragstart='dragstart_handler(event)'>" + script_label + "<div class='script_edit'><div onclick='scriptEdit(" + base_scripts_count + ")' class='small_custom_button'>edit</div><div onclick='scriptRemove(" + base_scripts_count + ")' class='small_custom_button'>remove</div></div>   </div>";
     new_scripts.innerHTML+=celltext;
-    base_scripts_count++;
     toggleAddScriptMenu();
+    script_library.push({ script_id: base_scripts_count, script_name: script_name, script_function: script_function});
+
+    base_scripts_count++;
   }
 
 let connecting = 0;
@@ -62,6 +170,7 @@ function connectModeSwitch(){
       connecting = 0;
       connect_mode.classList.remove("green");
   }
+  // console.log(script_final_library);
 }
 
 let selected_script;
@@ -77,15 +186,70 @@ function scriptClicked(id){
 }
 
 let script_connections = [];
+let script_connections_l;
 
-let connections_count = 0;
+let found_similar_connection;
 function connectScripts(from_id, to_id){
-
+    found_similar_connection = 0;
+    script_connections_l = script_connections.length;
+    for (i = 0; i < script_connections_l; i++)
+    {
+      if (script_connections[i].from == from_id && script_connections[i].to == to_id)
+      {
+        found_similar_connection = 1;
+        script_connections.splice(i, 1);
+        break;
+      }
+    }
+    if ( !found_similar_connection )
     script_connections.push({from: from_id, to: to_id});
-    //console.log(script_connections[connections_count].from + " -> " + script_connections[connections_count].to);
-    //console.log(script_connections);
-    connections_count++;
     updateCanvasConnections();
+}
+
+function scriptRemove(id){
+  console.log("trying to remove script " + id);
+  placed_scripts_l = placed_scripts.length;
+  // пройтись по списку скриптов и вырезать по совпадающему ID
+  // пройтись по списку связей и едалить все, упоминающие ID
+  for (i = 0; i < placed_scripts_l; i++)
+  {
+    if (placed_scripts[i].id == id)
+    {
+      placed_scripts.splice(i, 1);
+      break;
+    }
+  }
+  // console.log("script_connections_l = " + script_connections_l);
+  // console.log(script_connections);
+  for (i = 0; i < script_connections.length; i++)
+  {
+    if (script_connections[i].from == id || script_connections[i].to == id)
+    {
+      script_connections.splice(i, 1);
+      i--;
+    }
+  }
+  let elem = document.querySelector("#div"+id);
+  elem.remove();
+  console.log("removed script " + id + " and its connections");
+  updateCanvasConnections();
+}
+
+let edited_script;
+let script_code_area;
+function scriptEdit(id){
+  edited_script = id;
+  script_code_area = document.getElementById("script_code");
+  script_code_area.value = script_library[edited_script-1].script_function;
+  console.log("trying to edit script " + id);
+
+  toggleEditScriptWindow();
+}
+
+function saveEditedScript(){
+  script_code_area = document.getElementById("script_code");
+  script_library[edited_script-1].script_function = script_code_area.value;
+  toggleEditScriptWindow();
 }
 
 let canvas = document.getElementById('connections');
@@ -95,8 +259,9 @@ let ctx = canvas.getContext('2d');
 //let shit = 1;
 
 function updateCanvasConnections(){
+  script_connections_l = script_connections.length;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < connections_count; i++)
+  for (let i = 0; i < script_connections_l; i++)
   {
     let x1,y1,x2,y2,obj1,obj2;
     obj1 = document.getElementById("div"+script_connections[i].from);
@@ -107,9 +272,24 @@ function updateCanvasConnections(){
     y2 = obj2.offsetTop;
     ctx.strokeStyle = 'rgb(255, 255, 255)';
     ctx.lineWidth = 5;
+    //script size 30 * 150
+    let script_width = 150, script_height = 30;
+
+    y1 += script_height/2;
+    y2 += script_height/2;
+    x1 += script_width;
     ctx.beginPath();
     ctx.moveTo(x1, y1);
+    if (x1 != x2 && y1 != y2) ctx.bezierCurveTo(x2, y1, x1, y2, x2, y2);
+    else
+    {
+      ctx.bezierCurveTo(x1 + script_height*2, y1, x1 + script_height*2, y1 + script_height*2, (x1 + x2)/2 , y1 + script_height*2);
+      ctx.bezierCurveTo(x2 - script_height*2, y1 + script_height*2, x2 - script_height*2, y1, x2 , y2);
+    }
+    ctx.moveTo(x2 - script_height/2, y2 - script_height/2);
     ctx.lineTo(x2, y2);
+    ctx.lineTo(x2 - script_height/2, y2 + script_height/2);
+
     ctx.stroke();
     // ctx.beginPath();
     // ctx.moveTo(10, 10);
@@ -120,15 +300,35 @@ function updateCanvasConnections(){
     ctx.fillStyle = 'rgb(200, 0, 0)';
     //ctx.fillRect(x1, y1, x2, y2);
     //ctx.fillRect(x1/10, y1/10, x1/10 + 10, y1/10 + 10);
+    // console.log(script_library);
   }
 
 
   //shit++;
 }
 
+//console.log(script_decode_library);
 function startGame(){
+
+  let script_library_l = script_library.length;
+  let script_final_library = ``;
+  script_final_library += `[`;
+  for (i = 0; i < script_library_l; i++)
+  {
+    script_final_library += `{
+    script_id: "` + script_library[i].script_id + `",
+    script_function: function(){` + script_library[i].script_function + `
+    }
+    }`;
+    if (i != script_library_l - 1) script_final_library += ',';
+  }
+  script_final_library += `]`;
+  // console.log(script_final_library);
+
   sessionStorage.setItem("connections", JSON.stringify(script_connections));
   sessionStorage.setItem("scripts", JSON.stringify(placed_scripts));
+  sessionStorage.setItem("library", script_final_library);
+
 }
 
 

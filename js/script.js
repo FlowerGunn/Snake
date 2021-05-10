@@ -109,6 +109,7 @@ function move(){
             snakeBody.unshift(document.querySelector('[posX = "' + snakeCoordinates[0] + '"][posY = "13"]'));
         }
       }
+      //completeEvents("when_snake_moves");
 
       scoreBlock = document.querySelector(" h2 span ");
 
@@ -181,43 +182,48 @@ function setSpeed(speed){
 
 let connections = JSON.parse(sessionStorage.getItem("connections"));
 let scripts = JSON.parse(sessionStorage.getItem("scripts"));
+let script_library = sessionStorage.getItem("library");
+console.log(script_library);
+eval("script_library = " + script_library);
+console.log(script_library);
+
 //alert(connections.length);
 
 //enter meditative state
 
 //найти скрипты которые требуют начало игры - активировать
 
-let script_decode_library = [
-  {
-  script_name: "when_game_starts",
-  script_function: function(){
-    //alert("game started");
-    return 1; //разобраться с хранением!!!!!!!!!!!!!!!
-  }
-  },
-  {
-  script_name: "if_score_is_7",
-  script_function: function(){
-    console.log("checked if score == 7");
-    if (score == 7)
-    return 1;
-    return 0;
-  }
-  },
-  {
-  script_name: "speed_add_100",
-  script_function: function(){
-    return 0;
-  }
-  },
-  {
-  script_name: "speed_double",
-  script_function: function(){
-    setSpeed( snake_speed / 2 );
-    return 1;
-  }
-  }
-];
+// let script_decode_library = [
+//   {
+//   script_name: "when_game_starts",
+//   script_function: function(){
+//     //alert("game started");
+//     return 0; //разобраться с хранением!!!!!!!!!!!!!!!
+//   }
+//   },
+//   {
+//   script_name: "if_score_is_7",
+//   script_function: function(){
+//     console.log("checked if score == 7");
+//     if (score == 7)
+//     return 1;
+//     return 0;
+//   }
+//   },
+//   {
+//   script_name: "when_snake_moves",
+//   script_function: function(){
+//     return 0;
+//   }
+//   },
+//   {
+//   script_name: "speed_double",
+//   script_function: function(){
+//     setSpeed( snake_speed /  2 );
+//     return 1;
+//   }
+//   }
+// ];
 
 
 let scripts_l = scripts.length;
@@ -268,15 +274,26 @@ function activateEvents(script_name){
 }
 
 activateEvents("when_game_starts");
+completeEvents("when_game_starts");
 
 //find a function from a script script_name
-script_decode_library_l = script_decode_library.length;
-function scriptNameToFunction(script_name){
-  for (i3 = 0; i3 < script_decode_library_l; i3++)
+script_library_l = script_library.length;
+// function scriptNameToFunction(script_name){
+//   for (i3 = 0; i3 < script_library_l; i3++)
+//   {
+//     //console.log(script_name + "         " + script_library[i3].script_name);
+//     //console.log(script_library);
+//     if (script_name == script_library[i3].script_name) return i3;
+//   }
+//   return -1;
+// }
+
+function scriptIdToFunction(script_id){
+  for (i3 = 0; i3 < script_library_l; i3++)
   {
-    //console.log(script_name + "         " + script_decode_library[i3].script_name);
-    //console.log(script_decode_library);
-    if (script_name == script_decode_library[i3].script_name) return i3;
+    // console.log(script_id + "         " + script_library[i3].script_id);
+    // console.log(script_library);
+    if (script_id == script_library[i3].script_id) return i3;
   }
   return -1;
 }
@@ -298,11 +315,11 @@ function updateScripts(){
     //alert("active       " + scripts[i0].active);
     if (scripts[i0].active == 1)
     {
-      function_id = scriptNameToFunction(scripts[i0].name);
+      function_id = scriptIdToFunction(scripts[i0].id);
       console.log(scripts[i0].name + "     " + function_id);
       if (function_id == -1) break;
-      result = script_decode_library[function_id].script_function();
-      console.log(result);
+      result = script_library[function_id].script_function();
+      // console.log(result);
       if (result == 1)
       {
         scripts[i0].active = 0;

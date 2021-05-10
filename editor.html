@@ -19,7 +19,7 @@
 
   <div id="new_scripts" class="new_scripts_field"></div>
 
-  <p id="p1" class="script_text" draggable="true" ondragstart="dragstart_handler(event)">This element is draggable.</p>
+  <!-- <p id="p1" class="script_text" draggable="true" ondragstart="dragstart_handler(event)">This element is draggable.</p> -->
 
   <div id="add_script_menu" class="add_script_menu hidden">
     <div class="custom_button blue" onclick="addScript('when_game_starts')">wgs</div>
@@ -27,6 +27,12 @@
     <div class="custom_button" onclick="addScript('speed_add_100')">sa100</div>
     <div class="custom_button yellow" onclick="addScript('speed_double')">sd</div>
     <div class="custom_button" onclick="toggleAddScriptMenu()">x</div>
+  </div>
+  <div id="edit_script_window" class="add_script_menu hidden">
+    <div class="custom_button" onclick="toggleEditScriptWindow()">x</div>
+    <div class="custom_button" onclick="saveEditedScript()">save</div>
+    <br>
+    <textarea id="script_code" name="script_code" rows="30" cols="200"></textarea>
   </div>
 
   <script src="js/editor.js"></script>
