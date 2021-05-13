@@ -10,34 +10,64 @@ let script_library_default = [
   {
   script_label: "When game starts",
   script_name: "when_game_starts",
-  colour: "blue",
+  colour: "yellow",
   script_function: `
     return 1;`
   },
   {
-  script_label: "if_score_is_7",
-  script_name: "if_score_is_7",
+  script_label: "if_score_is_x",
+  script_name: "if_score_is_x",
   colour: "blue",
   script_function: `
-    console.log("checked if score == 7");
-    if (score == 7)
+    if (score == 1)
     return 1;
     return 0;`
   },
   {
   script_label: "when_snake_moves",
   script_name: "when_snake_moves",
-  colour: "blue",
+  colour: "yellow",
   script_function: `
     return 0;`
   },
   {
   script_label: "speed_double",
   script_name: "speed_double",
+  colour: "orange",
+  script_function: `
+    setSpeed( snake_interval /  2 );
+    return 1;`
+  },
+  {
+  script_label: "when_food_spawns",
+  script_name: "when_food_spawns",
+  colour: "yellow",
+  script_function: `
+    return 0;`
+  },
+  {
+  script_label: "if_direction_is_x",
+  script_name: "if_direction_is_x",
   colour: "blue",
   script_function: `
-    setSpeed( snake_speed /  2 );
-    return 1;`
+  if (direction == "up")
+  return 1;
+  return 0;`
+  },
+  {
+  script_label: "change_background_colour",
+  script_name: "change_background_colour",
+  colour: "orange",
+  script_function: `
+  field.style.background = "blue";
+  return 1;`
+  },
+  {
+  script_label: "when_food_spawns",
+  script_name: "when_food_spawns",
+  colour: "yellow",
+  script_function: `
+    return 0;`
   }
 
 ];
@@ -138,7 +168,7 @@ let script_label;
 
   function addScript(script_name) {
     placed_scripts.push({ id: base_scripts_count, name: script_name, active: 0, completed: 0 });
-    colour = "yellow"
+    colour = "yellow";
     script_label = script_name;
     for (i = 0; i < script_library_default_l; i++ )
     {

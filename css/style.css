@@ -120,11 +120,15 @@ h2 {
 }
 
 .green{
-	background-color: green;
+	background-color: lightgreen;
 }
 
 .yellow{
 	background-color: yellow;
+}
+
+.orange{
+	background-color: orange;
 }
 
 .connections{

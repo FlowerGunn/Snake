@@ -1,7 +1,9 @@
 let field = document.createElement('div');
 document.body.appendChild(field);
 field.classList.add('field');
-
+//field.setAttribute(‘id’, ‘field’);
+//field.style.background = "blue";
+let final_score = 15;
 
 for(let i=1; i<170; i++) {
     let excel = document.createElement('div');
@@ -109,17 +111,19 @@ function move(){
             snakeBody.unshift(document.querySelector('[posX = "' + snakeCoordinates[0] + '"][posY = "13"]'));
         }
       }
-      //completeEvents("when_snake_moves");
+      completeEvents("when_snake_moves");
 
       scoreBlock = document.querySelector(" h2 span ");
 
    if( snakeBody[0].getAttribute('posX') == food.getAttribute('posX')
         && snakeBody[0].getAttribute('posY') == food.getAttribute('posY')) {
+     completeEvents("when_snake_eats");
      food.classList.remove('food');
      let a = snakeBody[snakeBody.length - 1].getAttribute('posX');
      let b = snakeBody[snakeBody.length - 1].getAttribute('posY');
      snakeBody.push(document.querySelector('[posX = "' +  a + '"][posY = "' + b + '"]'))
      createFood();
+     completeEvents("when_food_spawns");
      score++;
      scoreBlock.innerText = + scoreBlock.innerText +1;
     }
@@ -133,7 +137,7 @@ function move(){
       //snakeBody[0].style.backgound = ' #0a0a0a ';
       //snakeBody[0].style.backgoundSize = "cover";
     }
-    if(score == 15 ){
+    if(score == final_score ){
       setTimeout(() => {
         alert(` Вы победили! Ваши очки : ${score}`);
       }, 200);
@@ -168,8 +172,8 @@ function move(){
 }
 );
 
-let snake_speed = 370;
-let interval = setInterval(move, snake_speed);
+let snake_interval = 370;
+let interval = setInterval(move, snake_interval);
 
 
 
@@ -225,11 +229,11 @@ console.log(script_library);
 //   }
 // ];
 
-
-let scripts_l = scripts.length;
+let scripts_l;
+if (scripts != null) scripts_l = scripts.length;
 let i0, i1, i2, i3;
-
-let connections_l = connections.length;
+let connections_l;
+if (connections != null) connections_l = connections.length;
 let has_parent;
 
 //активировать все события, у которых нет родителей
@@ -277,7 +281,8 @@ activateEvents("when_game_starts");
 completeEvents("when_game_starts");
 
 //find a function from a script script_name
-script_library_l = script_library.length;
+let script_library_l;
+if (script_library != null) script_library_l = script_library.length;
 // function scriptNameToFunction(script_name){
 //   for (i3 = 0; i3 < script_library_l; i3++)
 //   {
@@ -299,8 +304,8 @@ function scriptIdToFunction(script_id){
 }
 
 let result, function_id;
-
-let update_scripts_interval = setInterval(updateScripts, 1000);
+let update_scripts_interval;
+if (scripts != null) update_scripts_interval = setInterval(updateScripts, 250);
 
 function updateScripts(){
   //пройтись по каждому скрипту
