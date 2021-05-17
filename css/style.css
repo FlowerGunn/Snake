@@ -3,6 +3,14 @@ h2 {
 	font-family:cursive;
 	text-align: center;
    }
+
+	 br {
+	             display: block; /* makes it have a width */
+	             content: ""; /* clears default height */
+							 height: 0%;
+	             margin-top: -4px; /* change this to whatever height you want it */
+	 }
+
 .field {
   	width: 520px;
   	height: 520px;
@@ -53,32 +61,49 @@ h2 {
 }
 
 .script_box{
-	background-color: black;
-	display: inline-flex;
+	background-color: lightgray;
+	display:inline-block;
 	width: 30px;
 	height: 30px;
-	margin-top: -4px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 .script_itself{
+	border-color: black;
+	border-width: 8px;
+	border-style: outset;
+
+	font-weight: bold;
+	align-items: center;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+
+	font-size: 20px;
+	padding: auto;
 	background-color: green;
 	position: absolute;
-	width: 150px;
-	height: 30px;
+	width: 200px;
+	height: 60px;
 }
 
 .script_edit{
 	background-color: white;
-	position: relative;
-	top: 15px;
-	width: 150px;
+	border-color: black;
+	border-width: 8px;
+	border-style: outset;
+	position: absolute;
+	top: 60px;
+	left: -8px;
+	width: 200px;
 	height: 30px;
 	opacity: 0;
 }
 
 .script_edit:hover{
 	opacity: 1;
-	width: 150px;
+	width: 200px;
 	height: 30px;
 	visibility: visible;
 }
@@ -86,15 +111,18 @@ h2 {
 .small_custom_button{
 	/* font-size: 40px; */
 	/* font-weight: bold; */
-
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
 	/* margin: 10px; */
 	background-color: grey;
-	width: 75px;
+	width: 100px;
 	height: 30px;
 	margin: 0px;
+}
+
+.small_custom_button:hover{
+	background-color: white;
 }
 
 .script_text{
@@ -103,6 +131,9 @@ h2 {
 }
 
 .custom_button{
+	border-color: black;
+	border-width: 8px;
+	border-style: outset;
 	font-size: 20px;
 	font-weight: bold;
 	align-items: center;
@@ -111,8 +142,12 @@ h2 {
 	align-items: center;
 	margin: 10px;
 	background-color: grey;
-	width: 60px;
+	width: 200px;
 	height: 60px;
+}
+
+.custom_button:hover{
+	background-color: white;
 }
 
 .blue{
@@ -132,7 +167,7 @@ h2 {
 }
 
 .connections{
-	position: fixed;
+	position: absolute;
 	left: 0px;
 	top: 0px;
 	pointer-events: none;
@@ -153,4 +188,16 @@ h2 {
 
 .hidden{
 	display: none;
+}
+
+.new_scripts_field{
+	position: fixed;
+}
+
+.editor_field{
+	/* border-radius: 10px; */
+	border-style: outset;
+	border-color: black;
+	border-width: 8px;
+	width: 1500px;
 }

@@ -15,7 +15,7 @@ let script_library_default = [
     return 1;`
   },
   {
-  script_label: "if_score_is_x",
+  script_label: "If score = X",
   script_name: "if_score_is_x",
   colour: "blue",
   script_function: `
@@ -24,14 +24,14 @@ let script_library_default = [
     return 0;`
   },
   {
-  script_label: "when_snake_moves",
+  script_label: "When snake moves",
   script_name: "when_snake_moves",
   colour: "yellow",
   script_function: `
     return 0;`
   },
   {
-  script_label: "speed_double",
+  script_label: "Double snake speed",
   script_name: "speed_double",
   colour: "orange",
   script_function: `
@@ -39,14 +39,14 @@ let script_library_default = [
     return 1;`
   },
   {
-  script_label: "when_food_spawns",
+  script_label: "When food spawns",
   script_name: "when_food_spawns",
   colour: "yellow",
   script_function: `
     return 0;`
   },
   {
-  script_label: "if_direction_is_x",
+  script_label: "If direction = X",
   script_name: "if_direction_is_x",
   colour: "blue",
   script_function: `
@@ -55,7 +55,7 @@ let script_library_default = [
   return 0;`
   },
   {
-  script_label: "change_background_colour",
+  script_label: "Change BG colour",
   script_name: "change_background_colour",
   colour: "orange",
   script_function: `
@@ -63,11 +63,70 @@ let script_library_default = [
   return 1;`
   },
   {
-  script_label: "when_food_spawns",
+  script_label: "When food spawns",
   script_name: "when_food_spawns",
   colour: "yellow",
   script_function: `
     return 0;`
+  },
+  {
+  script_label: "Create counter",
+  script_name: "create_variable",
+  colour: "orange",
+  script_function: `
+  memory.counter_name = 0;
+  return 1;`
+  },
+  {
+  script_label: "Change counter",
+  script_name: "change_variable",
+  colour: "orange",
+  script_function: `
+  memory.counter_name = memory.counter_name + 1;
+  return 1;`
+  },
+  {
+  script_label: "If counter = x",
+  script_name: "if_variable_is_x",
+  colour: "blue",
+  script_function: `
+  if (memory.counter_name == 1) return 1;
+  return 0;`
+  },
+  {
+  script_label: "Randomizer",
+  script_name: "randomizer",
+  colour: "blue",
+  script_function: `
+  memory.randomizer = Math.random();
+  console.log(memory.randomizer);
+  if (memory.randomizer*100 > 50) return 1; // 20% chance
+  return 0;`
+  }
+  ,
+  {
+  script_label: "Finish game",
+  script_name: "game_finished",
+  colour: "orange",
+  script_function: `
+  gameOver();
+  return 1;`
+  },
+  {
+  script_label: "Win game",
+  script_name: "game_won",
+  colour: "orange",
+  script_function: `
+  gameWon();
+  return 1;`
+  },
+  {
+  script_label: "Change score goal",
+  script_name: "change_score_goal",
+  colour: "orange",
+  script_function: `
+  final_score = 30;
+  return 1;`
   }
 
 ];
@@ -116,7 +175,7 @@ document.getElementById('editor').innerhtml='';
 document.getElementById('new_scripts').innerhtml='';
 let new_scripts = document.getElementById('new_scripts');
 let editor = document.getElementById('editor');
-let x = 30;
+let x = 50;
 let y = 20;
 for (i = 0; i < y; i++)
 {
@@ -300,25 +359,28 @@ function updateCanvasConnections(){
     y1 = obj1.offsetTop;
     x2 = obj2.offsetLeft;
     y2 = obj2.offsetTop;
-    ctx.strokeStyle = 'rgb(255, 255, 255)';
-    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'rgb(0, 0, 0)';
+    ctx.lineWidth = 8;
     //script size 30 * 150
-    let script_width = 150, script_height = 30;
+    let script_width = 216, script_height = 76;
 
     y1 += script_height/2;
     y2 += script_height/2;
     x1 += script_width;
     ctx.beginPath();
     ctx.moveTo(x1, y1);
-    if (x1 != x2 && y1 != y2) ctx.bezierCurveTo(x2, y1, x1, y2, x2, y2);
+    if (x1 != x2 && y1 != y2)
+    {
+      ctx.bezierCurveTo(x1 + Math.abs(x1 - x2) / 2, y1, x2 - + Math.abs(x1 - x2) / 2, y2, x2, y2);
+    }
     else
     {
       ctx.bezierCurveTo(x1 + script_height*2, y1, x1 + script_height*2, y1 + script_height*2, (x1 + x2)/2 , y1 + script_height*2);
       ctx.bezierCurveTo(x2 - script_height*2, y1 + script_height*2, x2 - script_height*2, y1, x2 , y2);
     }
-    ctx.moveTo(x2 - script_height/2, y2 - script_height/2);
+    ctx.moveTo(x2 - script_height/3, y2 - script_height/3);
     ctx.lineTo(x2, y2);
-    ctx.lineTo(x2 - script_height/2, y2 + script_height/2);
+    ctx.lineTo(x2 - script_height/3, y2 + script_height/3);
 
     ctx.stroke();
     // ctx.beginPath();

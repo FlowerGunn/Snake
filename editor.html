@@ -9,26 +9,37 @@
 
 </head>
 <body>
-
+  <div id="new_scripts" class="new_scripts_field"></div>
   <div id="editor" class="editor_field"></div>
+
   <canvas height="960" width="1920" id="connections" class="connections"></canvas>
 
   <div id="connect_mode" class="custom_button" onclick="connectModeSwitch()">C</div>
   <div class="custom_button" onclick="toggleAddScriptMenu()">+</div>
   <a href="index.html"><div class="custom_button" onclick="startGame()">play</div></a>
 
-  <div id="new_scripts" class="new_scripts_field"></div>
+
 
   <!-- <p id="p1" class="script_text" draggable="true" ondragstart="dragstart_handler(event)">This element is draggable.</p> -->
 
   <div id="add_script_menu" class="add_script_menu hidden">
-    <div class="custom_button yellow" onclick="addScript('when_game_starts')">wgs</div>
-    <div class="custom_button blue" onclick="addScript('if_score_is_x')">isi7</div>
-    <div class="custom_button orange" onclick="addScript('speed_double')">sd</div>
-    <div class="custom_button yellow" onclick="addScript('when_snake_eats')">wse</div>
-    <div class="custom_button yellow" onclick="addScript('when_snake_moves')">wsm</div>
-    <div class="custom_button blue" onclick="addScript('if_direction_is_x')">isi7</div>
-    <div class="custom_button orange" onclick="addScript('change_background_colour')">cbc</div>
+    <div class="custom_button yellow" onclick="addScript('when_game_starts')">+ When game starts</div>
+    <div class="custom_button yellow" onclick="addScript('when_snake_eats')">+ When snake eats</div>
+    <div class="custom_button yellow" onclick="addScript('when_snake_moves')">+ When snake moves</div>
+    <br>
+    <div class="custom_button blue" onclick="addScript('if_direction_is_x')">+ If direction is X</div>
+    <div class="custom_button blue" onclick="addScript('if_variable_is_x')">+ If counter = X</div>
+    <div class="custom_button blue" onclick="addScript('if_score_is_x')">+ If score = X</div>
+    <div class="custom_button blue" onclick="addScript('randomizer')">+ Randomizer</div>
+    <br>
+    <div class="custom_button orange" onclick="addScript('change_background_colour')">+ Change BG colour</div>
+    <div class="custom_button orange" onclick="addScript('create_variable')">+ Create counter</div>
+    <div class="custom_button orange" onclick="addScript('change_variable')">+ Change counter</div>
+    <div class="custom_button orange" onclick="addScript('speed_double')">+ Double snake speed</div>
+    <div class="custom_button orange" onclick="addScript('game_won')">+ Win game</div>
+    <div class="custom_button orange" onclick="addScript('game_finished')">+ Finish game</div>
+    <div class="custom_button orange" onclick="addScript('change_score_goal')">+ Change score goal</div>
+    <br>
     <div class="custom_button" onclick="toggleAddScriptMenu()">x</div>
   </div>
   <div id="edit_script_window" class="add_script_menu hidden">

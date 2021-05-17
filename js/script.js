@@ -4,6 +4,8 @@ field.classList.add('field');
 //field.setAttribute(‘id’, ‘field’);
 //field.style.background = "blue";
 let final_score = 15;
+let interval;
+let memory = new Object();
 
 for(let i=1; i<170; i++) {
     let excel = document.createElement('div');
@@ -64,6 +66,19 @@ let snakeBody = [document.querySelector('[posX = "' + coordinates[0] + '"][posY 
  }
  createFood();
 
+function gameWon(){
+  clearInterval(interval);
+  setTimeout(() => {
+    alert(` Вы победили! Ваши очки : ${score}`);
+  }, 200);
+}
+
+function gameOver(){
+  clearInterval(interval);
+  setTimeout(() => {
+    alert(`Игра окончена. Ваши очки : ${score}`);
+  }, 200);
+}
 
 let direction = 'right';
 let steps = false;
@@ -129,18 +144,14 @@ function move(){
     }
 
     if(snakeBody[0].classList.contains('snakeBody')){
-      setTimeout(() => {
-        alert(`Игра окончена. Ваши очки : ${score}`);
-      }, 200);
+      gameOver();
 
       clearInterval(interval);
       //snakeBody[0].style.backgound = ' #0a0a0a ';
       //snakeBody[0].style.backgoundSize = "cover";
     }
     if(score == final_score ){
-      setTimeout(() => {
-        alert(` Вы победили! Ваши очки : ${score}`);
-      }, 200);
+      gameWon();
 
       clearInterval(interval);
       //snakeBody[0].style.backgound = ' #0a0a0a ';
@@ -173,7 +184,7 @@ function move(){
 );
 
 let snake_interval = 370;
-let interval = setInterval(move, snake_interval);
+interval = setInterval(move, snake_interval);
 
 
 
@@ -331,6 +342,7 @@ function updateScripts(){
         scripts[i0].completed = 1;
         console.log("completed a script");
       }
+      else if (result == -1) scripts[i0].active = 0;
     }
 
     if (scripts[i0].completed == 1)
